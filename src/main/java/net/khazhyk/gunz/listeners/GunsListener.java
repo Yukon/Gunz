@@ -100,7 +100,7 @@ public class GunsListener implements Listener {
     public void onBulletHit(EntityDamageByEntityEvent e) {
         // FIXME - This should do damage according to gun
         if (e.getDamager().getType() == EntityType.EGG) {
-            e.setDamage(5);
+            e.setDamage(20);
         }
     }
     

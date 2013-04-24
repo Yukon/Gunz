@@ -19,7 +19,7 @@ public class GunzPlugin extends JavaPlugin {
         Gun grenadeLauncher = new Gun("Grenade Launcher", Material.WOOD_SPADE, EntityType.SNOWBALL, 100, 240);
         gl.addGun(grenadeLauncher);
 
-        Gun teleportGun = new Gun("Teleport Gun", Material.IRON_HOE, EntityType.ENDER_PEARL, 100, 1500);
+        Gun teleportGun = new Gun("Teleport Gun", Material.IRON_HOE, EntityType.ENDER_PEARL, 100, 240);
         gl.addGun(teleportGun);
         
         this.getServer().getPluginManager().registerEvents(gl, this);
