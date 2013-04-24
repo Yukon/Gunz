@@ -1,5 +1,4 @@
 package net.khazhyk.gunz.listeners;
-import java.util.HashSet;
 import java.util.Map;
 
 import net.khazhyk.gunz.events.EntityShootGunEvent;
@@ -8,9 +7,8 @@ import net.khazhyk.gunz.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -25,12 +23,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 
 public class GunsListener implements Listener {
     private Map<Material,Gun> guns;
-    private HashSet<Projectile> bullets;
+    private Map<Projectile, Gun> bullets;
     
     private JavaPlugin plugin;
     private PluginManager pluginManager;
@@ -39,7 +36,7 @@ public class GunsListener implements Listener {
         this.plugin = plugin;
         this.pluginManager = plugin.getServer().getPluginManager();
         this.guns = Maps.newHashMap();
-        this.bullets = Sets.newHashSet();
+        this.bullets = Maps.newHashMap();
     }
     
     public void addGun(Gun gun) {
@@ -86,21 +83,25 @@ public class GunsListener implements Listener {
     
     @EventHandler
     public void onBulletHit(ProjectileHitEvent e) {
-        
         Projectile proj = e.getEntity();
-        if (bullets.contains(proj)) {
-            if (proj.getType() == EntityType.SNOWBALL) {
-                proj.getWorld().createExplosion(proj.getLocation(), 3);
-            }
+        if (bullets.get(proj) == guns.get(Material.WOOD_SPADE)) {
+            proj.getWorld().createExplosion(proj.getLocation(), 3);
             bullets.remove(proj);
         }
     }
     
     @EventHandler
     public void onBulletHit(EntityDamageByEntityEvent e) {
-        // FIXME - This should do damage according to gun
-        if (e.getDamager().getType() == EntityType.EGG) {
-            e.setDamage(20);
+        // Prevent shooting self
+        if (e.getDamager() instanceof Projectile && ((Projectile)e.getDamager()).getShooter() == e.getEntity()) {
+            e.setCancelled(true);
+            return;
+        }
+        Gun gun = bullets.get(e.getDamager());
+        if (gun != null) {
+            e.setDamage(gun.getDamage());
+            // Allow for fast damage
+            ((CraftEntity)e.getEntity()).getHandle().noDamageTicks = 0;
         }
     }
     
@@ -109,21 +110,20 @@ public class GunsListener implements Listener {
         World w = p.getWorld();
         Location l = p.getEyeLocation();
         Vector d = l.getDirection(); // Direction we're looking
-        // FIXME - Need to take into account player speed so we don't shoot ourselves
-        Location finalloc = l.clone().add(d);        
+        
+        Location finalloc = l.clone().subtract(0, 0.5, 0);        
         Vector vel = d.clone().multiply(gun.getVelocity() / 20.0); // Velocity is in blocks/tick
         // FIXME - Using Bukkit limits us to spawning without velocity, and limits what type of
         // Objects we can spawn, use NMS here
-        Projectile proj = (Projectile) w.spawnEntity(finalloc, gun.getBullet());
-        this.bullets.add(proj);
-        proj.setVelocity(vel);
-        proj.setShooter(p);
-        EntityShootGunEvent esge = new EntityShootGunEvent(p,gunItem, gun, proj);
+
+        EntityShootGunEvent esge = new EntityShootGunEvent(p,gunItem, gun);
         pluginManager.callEvent(esge);
         if (!esge.isCancelled()) {
-            w.playSound(finalloc, Sound.ENDERDRAGON_HIT, 1, 50);
-        } else {
-            proj.remove();
+            Projectile proj = (Projectile) w.spawnEntity(finalloc, gun.getBullet());
+            this.bullets.put(proj,gun);
+            proj.setVelocity(vel);
+            proj.setShooter(p);
+            gun.playSound(w, finalloc);
         }
     }
 }

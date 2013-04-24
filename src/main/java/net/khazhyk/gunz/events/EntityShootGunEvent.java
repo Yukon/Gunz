@@ -1,7 +1,6 @@
 package net.khazhyk.gunz.events;
 import net.khazhyk.gunz.guns.Gun;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -13,19 +12,19 @@ public class EntityShootGunEvent extends EntityEvent implements Cancellable {
     private ItemStack gunItem;
     private Gun gunType;
     private boolean cancelled;
-    private Entity projectile;
+    //private Entity projectile;
     
     private static HandlerList handlers = new HandlerList();
     
 
     public EntityShootGunEvent(LivingEntity shooter,
                                ItemStack gunItem,
-                               Gun gunType,
-                               Entity firedProjectile) {
+                               Gun gunType) {
         super(shooter);
         this.gunItem = gunItem;
         this.gunType = gunType;
-        this.projectile = firedProjectile;  // Allows manipulation of the fired projectile;
+        // TODO - Allow manipulation of the fired projectile
+        //this.projectile = firedProjectile;  // Allows manipulation of the fired projectile;
         this.cancelled = false;
     }
     
@@ -36,10 +35,10 @@ public class EntityShootGunEvent extends EntityEvent implements Cancellable {
     public Gun getGunType() {
         return gunType;
     }
-    
+    /*
     public Entity getProjectile() {
         return projectile;
-    }
+    }*/
 
     @Override
     public HandlerList getHandlers() {
