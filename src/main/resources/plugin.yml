@@ -1,0 +1,8 @@
+name: Gunz
+version: ${project.version}-${git.commit.id.abbrev}
+main: net.khazhyk.gunz.GunzPlugin
+author: khazhyk
+description: A plugin that aims to add gun functionality similar to ShotBow's Wasted
+commands:
+  test:
+    description: test
