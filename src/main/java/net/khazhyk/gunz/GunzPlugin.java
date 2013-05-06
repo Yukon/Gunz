@@ -16,16 +16,16 @@ public class GunzPlugin extends JavaPlugin {
 
     public void onEnable() {
         this.gl = new GunsListener(this);
-        Gun chickenCannon = new SimpleGun("Chicken Cannon", Material.DIAMOND_HOE, EntityType.EGG, 100, 1500, 1);
+        Gun chickenCannon = new SimpleGun("Chicken Cannon", Material.DIAMOND_HOE, EntityType.EGG, 95, 1500, 1);
         gl.addGun(chickenCannon);
         
-        Gun grenadeLauncher = new SimpleGun("Grenade Launcher", Material.WOOD_SPADE, EntityType.SNOWBALL, 100, 240, 300);
+        Gun grenadeLauncher = new SimpleGun("Grenade Launcher", Material.WOOD_SPADE, EntityType.SNOWBALL, 95, 240, 300);
         gl.addGun(grenadeLauncher);
 
-        Gun teleportGun = new SimpleGun("Teleport Gun", Material.IRON_HOE, EntityType.ENDER_PEARL, 100, 60, 0);
-        gl.addGun(teleportGun);
+        //Gun teleportGun = new SimpleGun("Teleport Gun", Material.IRON_HOE, EntityType.ENDER_PEARL, 75, 60, 0);
+        //gl.addGun(teleportGun);
         
-        Gun flameThrower = new Gun("Flamethrower", Material.GOLD_HOE, EntityType.SMALL_FIREBALL, 100, 600, 40, 40, 4,
+        Gun flameThrower = new Gun("Flamethrower", Material.GOLD_HOE, EntityType.SMALL_FIREBALL, 50, 600, 40, 40, 4,
                 new SoundEff(Sound.FIRE, 5, 1));
         gl.addGun(flameThrower);
         

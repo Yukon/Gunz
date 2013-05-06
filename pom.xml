@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.khazhyk</groupId>
   <artifactId>Gunz</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>Gunz</name>
   
   <properties>
@@ -55,12 +55,12 @@
   	<dependency>
   		<groupId>org.bukkit</groupId>
   		<artifactId>bukkit</artifactId>
-  		<version>1.5.1-R0.3-SNAPSHOT</version>
+  		<version>1.5.2-R0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>org.bukkit</groupId>
   		<artifactId>craftbukkit</artifactId>
-  		<version>1.5.1-R0.3-SNAPSHOT</version>
+  		<version>1.5.2-R0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>
 </project>

@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -109,9 +109,10 @@ public class GunsListener implements Listener {
         // This fires an event for every bullet - this might not be ideal
         World w = p.getWorld();
         Location l = p.getEyeLocation();
-        Vector d = l.getDirection(); // Direction we're looking
+        Vector d = p.getLocation().getDirection();
+        //Vector d = l.getDirection(); // Direction we're looking
         
-        Location finalloc = l.clone().subtract(0, 0.5, 0);        
+        Location finalloc = l.clone().subtract(0, 0.4, 0);        
         Vector vel = d.clone().multiply(gun.getVelocity() / 20.0); // Velocity is in blocks/tick
         // FIXME - Using Bukkit limits us to spawning without velocity, and limits what type of
         // Objects we can spawn, use NMS here

@@ -10,7 +10,7 @@ import org.bukkit.entity.EntityType;
 public class Gun {
     protected Material tool;    // The tool/item you use to fire this gun.
     protected EntityType firedEntity;
-    protected int velocity;     // The speed of bullets fired by this gun in meters/second
+    protected int velocity;     // The speed of bullets fired by this gun in meters/second MAX 95, any higher will have visual glitches
     protected int fireRate;     // How fast this gun fires bullets in shots/minute
     protected int reloadTicks;  // How many ticks it takes to reload (20 tps)
     protected int magSize;
